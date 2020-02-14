@@ -2,6 +2,7 @@
 
 from nornir import InitNornir
 from nornir.plugins.tasks.networking import napalm_get,napalm_cli
+from nornir.plugins.functions.text import print_result
 
 def get_device_state(task):
     r = task.run( napalm_get, getters = [ "get_facts" ] )
@@ -15,8 +16,8 @@ print(nr.inventory.hosts)
 
 result = nr.run( task = get_device_state)
 for host, host_data in sorted(result.items()):
-    debug_log("Host: " + host)
-    for cmd in host_data[1].result:
+    print("Host: ", host)
+    for cmd in host_data[0].result:
         print("Command: ", cmd)
 
-        print_results(result)
+        print_result(result)
